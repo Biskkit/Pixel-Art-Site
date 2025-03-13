@@ -38,7 +38,7 @@ export function Canvas() {
 	 */
 	useEffect(() => {
 		setScaling(window.innerHeight, window.innerWidth);
-	}, [canvasRef]);
+	}, []);
 
 	// Add event listener to window, so that it runs the scaling method every time it resizes
 	window.addEventListener("resize", () => setScaling(window.innerHeight, window.innerWidth));
@@ -55,7 +55,7 @@ export function Canvas() {
 
 		const canvas = canvasRef.current;
 		let ctx = canvas.getContext('2d');
-		ctx.fillStyle = "rgb(0, 0, 0)";
+		ctx.fillStyle = "rgb(240, 3, 3)";
 		let posX = nativeEvent.offsetX;
 		let posY = nativeEvent.offsetY;
 		// Grab the "rectangle" of the internal canvas so that the positions can be transposed
@@ -87,13 +87,12 @@ export function Canvas() {
 			let posY = nativeEvent.offsetY;
 			const canvas = canvasRef.current;
 			const ctx = canvas.getContext('2d');
-			ctx.fillStyle = "rgb(0, 0, 0)";
+			ctx.fillStyle = "rgb(253, 4, 4)";
 			// Grab the "rectangle" of the internal canvas so that the positions can be transposed
 			// const boundRect = canvas.getBoundingClientRect();
 			// Transpose x and y position
 			posX = transposePosition(posX, 0);
 			posY = transposePosition(posY, 0);
-			console.log(`pixX: ${posX}, pixY: ${posY}, clientX: ${e.clientX}, clientY: ${e.clientY}`);
 			ctx.fillRect(posX, posY, 1, 1);
 		}
 	}
@@ -101,12 +100,12 @@ export function Canvas() {
 	return(
 		<>
 			<canvas
-			ref = {canvasRef}
-			onMouseDown={handleMouseDown}
-			onMouseUp={falseMouseDown}
-			onMouseLeave={falseMouseDown}
-			onMouseMove={fillPixel}
-			height={16}
+				ref = {canvasRef}
+				onMouseDown={handleMouseDown}
+				onMouseUp={falseMouseDown}
+				onMouseLeave={falseMouseDown}
+				onMouseMove={fillPixel}
+				height={16}
 			width={16}>
 			</canvas>
 			<ClearBtn canvas = {canvasRef.current}/>
@@ -138,16 +137,16 @@ function ClearBtn({ canvas }) {
  * @param {HTMLCanvasElement} canvas, the canvas object to download the image from 
  */
 function DownloadButton( { canvas } ) {
-	function downloadImage() {
-		let image = canvas.toDataURL("image/png");
-		// Create a link to be "clicked"
-		const a = document.createElement('a');
-		a.href = image;
-		a.download = "image";
-		a.click();
-	}
+	// Grab image URL for PNG download, this has to be state since it needs to wait till canvas is non-null
+	// Thought process for future self: Since canvas is passed as props and components will re-render whenever props change, 
+	// all you need to do is check if canvas is non-null and then set some variable to a value.
+	// Note: The variable cannot be a state-variable because then that leads to infinite re-rendering. 
+	// Sometimes, the simplest thing you think won't work will.
+	let imageURL;
+
+	if(canvas) imageURL = canvas.toDataURL("image/png");
 
 	return(
-		<button onClick={downloadImage}>Download as PNG</button>
+		<a href={imageURL} download="image">Download as PNG</a>
 	)
 }
