@@ -7,24 +7,35 @@ export function Canvas() {
 	// Scaling variable used to transform the client position to the actual internal canvas
 	// In this case, it'll be 16
 	const [pScale, setPScale] = useState(1);
+	
+	/**
+	 * This function will run on first load (after canvasRef has been grabbed) and whenever the window resizes
+	 * @brief Sets the CSS width and height of canvas along with the pScale state variable
+	 * @param windowHeight, height of the window
+	 * @param windowWidth, width of the window  
+	*/
+	function setScaling(windowHeight, windowWidth) {
+		// Grab scale
+		const scale = Math.floor(Math.min(windowWidth, windowHeight) * .8);
+		// Grab canvas
+		const canvas = canvasRef.current;
+		// Set CSS styling width, this ensures that the internal scaling stays the same (in this case, 16x16)
+		canvas.style.width = `${scale}px`;
+		canvas.style.height = `${scale}px`;
+		// Set the scaling for pixels and units
+		setPScale(scale / 16);
+	}
+	
 	/**
 	 * Code to run on first load of component
 	 * This should replace the "window.onload" function (hopefully)
 	 */
 	useEffect(() => {
-		const canvas = canvasRef.current;
-		let width = window.innerWidth
-		let height = window.innerHeight
-		console.log(`Window height: ${height}, Window width: ${width}`);
-		// Grab minimum between width and height
-		const scale = Math.floor(Math.min(width, height) * .8);
-		// Set CSS styling width, this ensures that the internal scaling stays the same (in this case, 16x16)
-		canvas.style.width = `${scale}px`
-		canvas.style.height = `${scale}px`
-		// Set the scaling for pixels and units
-		setPScale(scale / 16);
-	}, []);
+		setScaling(window.innerHeight, window.innerWidth);
+	}, [canvasRef]);
 
+	// Add event listener to window, so that it runs the scaling method every time it resizes
+	window.addEventListener("resize", () => setScaling(window.innerHeight, window.innerWidth));
 	/**
 	 * Function for handling mouseDown input, 
 	 * replaces typical eventListener used before
