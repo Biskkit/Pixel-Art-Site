@@ -8,6 +8,12 @@ export function Canvas() {
 	// In this case, it'll be 16
 	const [pScale, setPScale] = useState(1);
 	
+	// Helper function to translate x and y pixels
+	// This function assumes that pos must be divided by the scale state variable
+	function transposePosition(pos, offset) {
+		return Math.floor((pos - offset) / pScale);
+	}
+
 	/**
 	 * This function will run on first load (after canvasRef has been grabbed) and whenever the window resizes
 	 * @brief Sets the CSS width and height of canvas along with the pScale state variable
@@ -36,6 +42,7 @@ export function Canvas() {
 
 	// Add event listener to window, so that it runs the scaling method every time it resizes
 	window.addEventListener("resize", () => setScaling(window.innerHeight, window.innerWidth));
+
 	/**
 	 * Function for handling mouseDown input, 
 	 * replaces typical eventListener used before
@@ -56,6 +63,7 @@ export function Canvas() {
 		console.log(`Left: ${boundRect.left}, Top: ${boundRect.top}, Bottom: ${boundRect.bottom}, Right: ${boundRect.right}, pixX: ${posX}, pixY: ${posY}`);
 		ctx.fillRect(posX, posY, 1, 1);
 	}
+
 	/** 
 	 * Function to handle mouse up 
 	 * (will simply set state, but wrapped in a function in case it is changed)
@@ -63,6 +71,7 @@ export function Canvas() {
 	function falseMouseDown() {
 		setMouseDown(false);
 	}
+
 	/**
  	* Note: Should only be called upon by canvas objects
 	* @param {MouseEvent} e
@@ -83,21 +92,39 @@ export function Canvas() {
 			ctx.fillRect(posX, posY, 1, 1);
 		}
 	}
+	
+	return(
+		<>
+			<canvas
+			ref = {canvasRef}
+			onMouseDown={handleMouseDown}
+			onMouseUp={falseMouseDown}
+			onMouseLeave={falseMouseDown}
+			onMouseMove={fillPixel}
+			height={16}
+			width={16}>
+			</canvas>
+			<ClearBtn canvas = {canvasRef.current}/>
+		</>
+	);
+}
 
-	// Helper function to translate x and y pixels
-	// This function assumes that pos must be divided by the scale state variable
-	function transposePosition(pos, offset) {
-		return Math.floor((pos - offset) / pScale);
+/**
+ * Clear button to delete all the pixels on the canvas
+ * @param {HTMLCanvasElement} canvas, the canvas object to clear  
+*/
+function ClearBtn({ canvas }) {
+	function clearCanvas() {
+		console.log("Canvas Object:");
+		console.log(canvas);
+		// Grab canvas context
+		const ctx = canvas.getContext('2d');
+		// Grab width and height of canvas
+		const width = canvas.width;
+		const height = canvas.height;
+		ctx.clearRect(0, 0, width, height);
 	}
 	return(
-		<canvas
-		ref = {canvasRef}
-		onMouseDown={handleMouseDown}
-		onMouseUp={falseMouseDown}
-		onMouseLeave={falseMouseDown}
-		onMouseMove={fillPixel}
-		height={16}
-		width={16}>
-		</canvas>
+		<button onClick={clearCanvas}>Clear</button>
 	);
 }
