@@ -11,7 +11,9 @@ html, body {
 } */
 
 canvas {
-	border: 2px solid;
+	border: .5em black solid;
 	image-rendering: pixelated;
+	background-color: white;
+	margin: 10px;
 }
 
