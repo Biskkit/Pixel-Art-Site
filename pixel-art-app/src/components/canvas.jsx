@@ -147,6 +147,6 @@ function DownloadButton( { canvas } ) {
 	if(canvas) imageURL = canvas.toDataURL("image/png");
 
 	return(
-		<a href={imageURL} download="image">Download as PNG</a>
+		<a href={imageURL} download = "image" id = "downloadLink">Download as PNG</a>
 	)
 }
