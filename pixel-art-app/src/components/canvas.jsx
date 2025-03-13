@@ -110,6 +110,7 @@ export function Canvas() {
 			width={16}>
 			</canvas>
 			<ClearBtn canvas = {canvasRef.current}/>
+			<DownloadButton canvas = {canvasRef.current}/>
 		</>
 	);
 }
@@ -127,7 +128,26 @@ function ClearBtn({ canvas }) {
 		const height = canvas.height;
 		ctx.clearRect(0, 0, width, height);
 	}
+	
 	return(
 		<button onClick={clearCanvas}>Clear</button>
 	);
+}
+/**
+ * @brief Method will download the image as a PNG. May add other formats later
+ * @param {HTMLCanvasElement} canvas, the canvas object to download the image from 
+ */
+function DownloadButton( { canvas } ) {
+	function downloadImage() {
+		let image = canvas.toDataURL("image/png");
+		// Create a link to be "clicked"
+		const a = document.createElement('a');
+		a.href = image;
+		a.download = "image";
+		a.click();
+	}
+
+	return(
+		<button onClick={downloadImage}>Download as PNG</button>
+	)
 }
