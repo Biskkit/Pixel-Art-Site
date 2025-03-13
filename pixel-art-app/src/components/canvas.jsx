@@ -50,17 +50,20 @@ export function Canvas() {
 	 */
 	function handleMouseDown(e) {
 		setMouseDown(true);
+		// Native JS event to access things react doesn't support like offsetX and offsetY
+		const nativeEvent = e.nativeEvent;
+
 		const canvas = canvasRef.current;
 		let ctx = canvas.getContext('2d');
 		ctx.fillStyle = "rgb(0, 0, 0)";
-		let posX = e.clientX;
-		let posY = e.clientY;
+		let posX = nativeEvent.offsetX;
+		let posY = nativeEvent.offsetY;
 		// Grab the "rectangle" of the internal canvas so that the positions can be transposed
-		const boundRect = canvas.getBoundingClientRect();
+		// const boundRect = canvas.getBoundingClientRect();
 		// Transpose x and y position
-		posX = transposePosition(posX, boundRect.left);
-		posY = transposePosition(posY, boundRect.top);
-		console.log(`Left: ${boundRect.left}, Top: ${boundRect.top}, Bottom: ${boundRect.bottom}, Right: ${boundRect.right}, pixX: ${posX}, pixY: ${posY}`);
+		posX = transposePosition(posX, 0);
+		posY = transposePosition(posY, 0);
+		// console.log(`Left: ${boundRect.left}, Top: ${boundRect.top}, Bottom: ${boundRect.bottom}, Right: ${boundRect.right}, pixX: ${posX}, pixY: ${posY}`);
 		ctx.fillRect(posX, posY, 1, 1);
 	}
 
@@ -77,18 +80,20 @@ export function Canvas() {
 	* @param {MouseEvent} e
 	**/
 	function fillPixel(e) {
+		// Native JS event to access things react doesn't support like offsetX and offsetY
+		const nativeEvent = e.nativeEvent;
 		if(mouseDown) {
-			let posX = e.clientX;
-			let posY = e.clientY;
+			let posX = nativeEvent.offsetX;
+			let posY = nativeEvent.offsetY;
 			const canvas = canvasRef.current;
 			const ctx = canvas.getContext('2d');
 			ctx.fillStyle = "rgb(0, 0, 0)";
 			// Grab the "rectangle" of the internal canvas so that the positions can be transposed
-			const boundRect = canvas.getBoundingClientRect();
+			// const boundRect = canvas.getBoundingClientRect();
 			// Transpose x and y position
-			posX = transposePosition(posX, boundRect.left);
-			posY = transposePosition(posY, boundRect.top);
-			console.log(`Left: ${boundRect.left}, Top: ${boundRect.top}, Bottom: ${boundRect.bottom}, Right: ${boundRect.right}, pixX: ${posX}, pixY: ${posY}, clientX: ${e.clientX}, clientY: ${e.clientY}`);
+			posX = transposePosition(posX, 0);
+			posY = transposePosition(posY, 0);
+			console.log(`pixX: ${posX}, pixY: ${posY}, clientX: ${e.clientX}, clientY: ${e.clientY}`);
 			ctx.fillRect(posX, posY, 1, 1);
 		}
 	}
@@ -115,8 +120,6 @@ export function Canvas() {
 */
 function ClearBtn({ canvas }) {
 	function clearCanvas() {
-		console.log("Canvas Object:");
-		console.log(canvas);
 		// Grab canvas context
 		const ctx = canvas.getContext('2d');
 		// Grab width and height of canvas
