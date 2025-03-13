@@ -1,7 +1,7 @@
 /** @type {HTMLCanvasElement} */
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+const canvasRef = document.getElementById('canvas');
+const ctx = canvasRef.getContext('2d');
 let mouseDown = false;
 
 // This is the ratio of units to pixels.
@@ -19,18 +19,18 @@ function calcPos(x, y) {
 // canvas.addEventListener('mouseenter', (e) => {
 // 	ctx.reset();
 // })
-canvas.addEventListener("mousedown", (e) => {
+canvasRef.addEventListener("mousedown", (e) => {
 	mouseDown = true;
 	const posX = e.clientX;
 	const posY = e.clientY;
 	ctx.fillStyle = "rgb(0, 0, 0)";
 	ctx.fillRect(posX, posY, 1/pToU, 1/pToU);
 });
-canvas.addEventListener('mouseup', () => { 
+canvasRef.addEventListener('mouseup', () => { 
 	mouseDown = false;
 })
 // canvas.addEventListener('mouseout', fillRed);
-canvas.addEventListener('mousemove', fillPixel)
+canvasRef.addEventListener('mousemove', fillPixel)
 
 clrBtn.addEventListener('click', () => {
 	ctx.reset();
@@ -56,15 +56,15 @@ window.onload = () => {
 	let height = window.innerHeight
 	console.log(`Window height: ${height}, Window width: ${width}`);
 	if(width < height) {
-		canvas.width = (.8 * width)
-		canvas.height = (.8 * width)
+		canvasRef.width = (.8 * width)
+		canvasRef.height = (.8 * width)
 	}
 	else {
 		console.log('in else');
-		canvas.width = (.8 * height)
-		canvas.height = (.8 * height)
+		canvasRef.width = (.8 * height)
+		canvasRef.height = (.8 * height)
 	}
-	pToU = canvas.width/16;
+	pToU = canvasRef.width/16;
 	ctx.scale(pToU, pToU);
 }
 
@@ -73,16 +73,16 @@ window.onresize = () => {
 	let height = window.innerHeight
 	console.log(`Window height: ${height}, Window width: ${width}`);
 	if(width < height) {
-		canvas.width = (.8 * width)
-		canvas.height = (.8 * width)
+		canvasRef.width = (.8 * width)
+		canvasRef.height = (.8 * width)
 	}
 	else {
 		console.log('in else');
-		canvas.width = (.8 * height)
-		canvas.height = (.8 * height)
+		canvasRef.width = (.8 * height)
+		canvasRef.height = (.8 * height)
 	}
-	pToU = canvas.width/16;
+	pToU = canvasRef.width/16;
 	ctx.scale(pToU, pToU);
-	console.log(`Canvas width: ${canvas.width}, Canvas height: ${canvas.width}`);
+	console.log(`Canvas width: ${canvasRef.width}, Canvas height: ${canvasRef.width}`);
 
 }
