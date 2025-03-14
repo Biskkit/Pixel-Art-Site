@@ -19,10 +19,18 @@ div.sidebar {
 
 div.tools {
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	flex-flow: column wrap;
+	height: 80vh;
 }
 
+/* Set margins between tool images.
+	Set image heights, so that they're not extremely small
+*/
+div.tools > img {
+	margin: 1.5em 0em;
+	width: 10vh;
+	min-width: 64px;
+}
 
 /* Ensure buttons and links on sidebar aren't rendered in light mode to avoid black text on the dark backgrounds */
 div.utility > button {
@@ -30,11 +38,6 @@ div.utility > button {
 }
 div.utility > a {
 	color-scheme: dark;
-}
-div.tools > button {
-	color-scheme: dark;
-	margin: 1em 0px;
-	/* width: 50%; */
 }
 
 /* Class for links with the same appearance as buttons */

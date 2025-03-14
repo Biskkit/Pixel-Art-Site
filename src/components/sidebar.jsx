@@ -7,8 +7,8 @@
  * However, this could cause some issues with optimization. I'm unsure if all the children will be re-rendered, or not. They shouldn't because
  * React's virtual DOM should optimize on its own. I guess I'll see.
  */
-const selectedPath = "src/assets/ui/selected/";
-const unselectedPath = "src/assets/ui/unselected/";
+const selectedPath = "ui/selected/";
+const unselectedPath = "ui/unselected/";
 
 
 /**
