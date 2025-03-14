@@ -20,7 +20,7 @@ export function Sidebar({ canvas, updateCanvasAction, currentCanvasAction }) {
 		<div className="sidebar">
 			<div className="tools">
 				<BrushButton updateCanvasAction={updateCanvasAction} currentCanvasAction={currentCanvasAction}/>
-				<EraserButton updateCanvasAction={updateCanvasAction}/>
+				<EraserButton updateCanvasAction={updateCanvasAction} currentCanvasAction = {currentCanvasAction}/>
 			</div>
 			<div className="utility">
 				<ClearBtn canvas = {canvas}/>
@@ -42,13 +42,19 @@ function BrushButton( { updateCanvasAction, currentCanvasAction } ) {
 	else
 		src = unselectedPath+"paint-brush.png";
 	return(
-		<img src={src} onClick={() => updateCanvasAction("paint")} alt="Brush Tool" title="Brush Tool"></img>
+		<img src={src} onClick={() => updateCanvasAction("paint")} alt="Brush Tool" title="Brush"></img>
 	)
 }
 
-function EraserButton( { updateCanvasAction } ) {
+function EraserButton( { updateCanvasAction, currentCanvasAction } ) {
+	let src;
+	if(currentCanvasAction == "erase")
+		src = selectedPath+"eraser.png";
+	else
+		src = unselectedPath+"eraser.png";
 	return(
-		<button style = {{backgroundColor: "darkmagenta"}} onClick={() => updateCanvasAction("erase")}>Eraser</button>
+		<img src={src} onClick={() => updateCanvasAction("erase")} alt="Erase Tool" title="Eraser"></img>
+
 	)
 }
 
