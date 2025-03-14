@@ -17,16 +17,16 @@ canvas {
 	margin: 10px;
 }
 
-#downloadLink {
+a.buttonLink {
 	text-decoration: none;
-	color: white;
+	color: light-dark(black, white);
 	margin: 0px 30px;
 	/* Padding works for separation between content and things like borders */
 	padding: .6em 1.2em;
 	border: 1px solid transparent;
 	border-radius: 8px;
-	background-color: #1a1a1a;
+	background-color: ButtonFace;
 }
-#downloadLink:hover {
+a.buttonLink:hover {
 	border-color: #ffffff;
 }
