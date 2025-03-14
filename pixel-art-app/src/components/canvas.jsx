@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { Sidebar } from "./sidebar";
+
 // Main component
 export function Canvas() {
 	const [mouseDown, setMouseDown] = useState(false);
@@ -88,8 +90,7 @@ export function Canvas() {
 			const canvas = canvasRef.current;
 			const ctx = canvas.getContext('2d');
 			ctx.fillStyle = "rgb(253, 4, 4)";
-			// Grab the "rectangle" of the internal canvas so that the positions can be transposed
-			// const boundRect = canvas.getBoundingClientRect();
+
 			// Transpose x and y position
 			posX = transposePosition(posX, 0);
 			posY = transposePosition(posY, 0);
@@ -108,45 +109,9 @@ export function Canvas() {
 				height={16}
 			width={16}>
 			</canvas>
-			<ClearBtn canvas = {canvasRef.current}/>
-			<DownloadButton canvas = {canvasRef.current}/>
+			<Sidebar canvas = {canvasRef.current}/>
 		</>
 	);
 }
 
-/**
- * Clear button to delete all the pixels on the canvas
- * @param {HTMLCanvasElement} canvas, the canvas object to clear  
-*/
-function ClearBtn({ canvas }) {
-	function clearCanvas() {
-		// Grab canvas context
-		const ctx = canvas.getContext('2d');
-		// Grab width and height of canvas
-		const width = canvas.width;
-		const height = canvas.height;
-		ctx.clearRect(0, 0, width, height);
-	}
-	
-	return(
-		<button onClick={clearCanvas}>Clear</button>
-	);
-}
-/**
- * @brief Method will download the image as a PNG. May add other formats later
- * @param {HTMLCanvasElement} canvas, the canvas object to download the image from 
- */
-function DownloadButton( { canvas } ) {
-	// Grab image URL for PNG download, this has to be state since it needs to wait till canvas is non-null
-	// Thought process for future self: Since canvas is passed as props and components will re-render whenever props change, 
-	// all you need to do is check if canvas is non-null and then set some variable to a value.
-	// Note: The variable cannot be a state-variable because then that leads to infinite re-rendering. 
-	// Sometimes, the simplest thing you think won't work will.
-	let imageURL;
 
-	if(canvas) imageURL = canvas.toDataURL("image/png");
-
-	return(
-		<a href={imageURL} download = "image" id = "downloadLink">Download as PNG</a>
-	)
-}
