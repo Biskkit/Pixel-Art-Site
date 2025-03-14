@@ -12,11 +12,11 @@
  * Top-level Sidebar component.
  * @param {HTMLCanvasElement1} canvas, top-level canvas object
  */
-export function Sidebar({ canvas, updateCanvasAction }) {
+export function Sidebar({ canvas, updateCanvasAction, currentCanvasAction }) {
 	return (
 		<div className="sidebar">
 			<div className="tools">
-				<BrushButton updateCanvasAction={updateCanvasAction}/>
+				<BrushButton updateCanvasAction={updateCanvasAction} currentCanvasAction={currentCanvasAction}/>
 				<EraserButton updateCanvasAction={updateCanvasAction}/>
 			</div>
 			<div className="utility">
@@ -26,10 +26,20 @@ export function Sidebar({ canvas, updateCanvasAction }) {
 		</div>
 	)
 }
-
-function BrushButton( { updateCanvasAction } ) {
+/**
+ * This component will take the following parameters
+ * @param {function} updateCanvasAction, wrapper function to update canvasAction state variable
+ * @param currentAction, the current canvas action. This is needed so that the correct image can be displayed on the UI (selected/unselected)
+ * @returns An image element that changes the canvas action to "brush" on click 
+ */
+function BrushButton( { updateCanvasAction, currentCanvasAction } ) {
+	let src; // source for image
+	if(currentCanvasAction == "paint")
+		src = "/src/assets/ui/selected/paint-brush.png";
+	else
+		src = "/src/assets/ui/unselected/paint-brush.png";
 	return(
-		<button style = {{backgroundColor: "rgb(107, 66, 12)"}}onClick={() => updateCanvasAction("paint")}>Brush</button>
+		<img src={src} onClick={() => updateCanvasAction("paint")} alt="Brush Tool"></img>
 	)
 }
 

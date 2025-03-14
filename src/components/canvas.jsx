@@ -117,7 +117,7 @@ export function Canvas() {
 				height={16}
 			width={16}>
 			</canvas>
-			<Sidebar canvas = {canvasRef.current} updateCanvasAction = { updateCanvasAction }/>
+			<Sidebar canvas = {canvasRef.current} updateCanvasAction = { updateCanvasAction } currentCanvasAction = {canvasAction}/>
 		</>
 	);
 }
