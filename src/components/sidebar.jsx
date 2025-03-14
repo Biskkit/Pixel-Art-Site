@@ -7,6 +7,9 @@
  * However, this could cause some issues with optimization. I'm unsure if all the children will be re-rendered, or not. They shouldn't because
  * React's virtual DOM should optimize on its own. I guess I'll see.
  */
+const selectedPath = "src/assets/ui/selected/";
+const unselectedPath = "src/assets/ui/unselected/";
+
 
 /**
  * Top-level Sidebar component.
@@ -35,11 +38,11 @@ export function Sidebar({ canvas, updateCanvasAction, currentCanvasAction }) {
 function BrushButton( { updateCanvasAction, currentCanvasAction } ) {
 	let src; // source for image
 	if(currentCanvasAction == "paint")
-		src = "/src/assets/ui/selected/paint-brush.png";
+		src = selectedPath+"paint-brush.png";
 	else
-		src = "/src/assets/ui/unselected/paint-brush.png";
+		src = unselectedPath+"paint-brush.png";
 	return(
-		<img src={src} onClick={() => updateCanvasAction("paint")} alt="Brush Tool"></img>
+		<img src={src} onClick={() => updateCanvasAction("paint")} alt="Brush Tool" title="Brush Tool"></img>
 	)
 }
 
