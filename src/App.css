@@ -1,12 +1,45 @@
 canvas {
-	/* display: block; */
 	border: .5em black solid;
 	image-rendering: pixelated;
 	background-color: white;
 	margin: 10px;
 }
 
+
+
+div.sidebar {
+	display: inline-flex;
+	image-rendering: pixelated; /* This will be needed in the future when I add pixel art for the sidebar icons (brush for brush tool, eraser for eraser, etc.) */
+	flex-direction: column;
+	justify-content: space-evenly;
+	position: absolute;
+	height: 80vh;
+	margin: 0em 2em;
+}
+
+div.tools {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+
+/* Ensure buttons and links on sidebar aren't rendered in light mode to avoid black text on the dark backgrounds */
+div.utility > button {
+	color-scheme: dark;
+}
+div.utility > a {
+	color-scheme: dark;
+}
+div.tools > button {
+	color-scheme: dark;
+	margin: 1em 0px;
+	/* width: 50%; */
+}
+
+/* Class for links with the same appearance as buttons */
 a.buttonLink {
+	display: inline-block;
 	text-decoration: none;
 	color: light-dark(ButtonText, ButtonText);
 	margin: 0px 30px;
@@ -18,13 +51,4 @@ a.buttonLink {
 }
 a.buttonLink:hover {
 	border-color: #ffffff;
-}
-
-div.sidebar {
-	display: inline-block;
-	margin: 0em 2em;
-}
-div.tools > button {
-	display: block;
-	margin: 10px 0px;
 }

@@ -29,13 +29,13 @@ export function Sidebar({ canvas, updateCanvasAction }) {
 
 function BrushButton( { updateCanvasAction } ) {
 	return(
-		<button color="blue" onClick={() => updateCanvasAction("paint")}>Brush</button>
+		<button style = {{backgroundColor: "rgb(107, 66, 12)"}}onClick={() => updateCanvasAction("paint")}>Brush</button>
 	)
 }
 
 function EraserButton( { updateCanvasAction } ) {
 	return(
-		<button color = "pink" onClick={() => updateCanvasAction("erase")}>Eraser</button>
+		<button style = {{backgroundColor: "darkmagenta"}} onClick={() => updateCanvasAction("erase")}>Eraser</button>
 	)
 }
 
@@ -54,7 +54,7 @@ function ClearBtn({ canvas }) {
 	}
 	
 	return(
-		<button onClick={clearCanvas}>Clear</button>
+		<button style = {{backgroundColor: "darkred"}} onClick={clearCanvas}>Clear</button>
 	);
 }
 /**
@@ -72,7 +72,7 @@ function DownloadLink( { canvas } ) {
 	if(canvas) imageURL = canvas.toDataURL("image/png");
 
 	return(
-		<a href={imageURL} download = "image" className="buttonLink">Download as PNG</a>
+		<a style = {{backgroundColor: "green"}} href={imageURL} download = "image" className="buttonLink">Download as PNG</a>
 	)
 }
 
