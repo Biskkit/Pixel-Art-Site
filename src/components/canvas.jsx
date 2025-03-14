@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Sidebar } from "./sidebar";
+import { fillPixel } from "../helper-functions/canvasFunctions";
 
 // Main component
 export function Canvas() {
@@ -10,11 +11,8 @@ export function Canvas() {
 	// In this case, it'll be 16
 	const [pScale, setPScale] = useState(1);
 	
-	// Helper function to translate x and y pixels
-	// This function assumes that pos must be divided by the scale state variable
-	function transposePosition(pos, offset) {
-		return Math.floor((pos - offset) / pScale);
-	}
+	// State string which will be set based upon what tool selected (i.e. "paint" for brush tool, "erase" for eraser, etc.)
+	const [canvasAction, setCanvasAction] = useState("paint");
 
 	/**
 	 * This function will run on first load (after canvasRef has been grabbed) and whenever the window resizes
@@ -46,58 +44,65 @@ export function Canvas() {
 	window.addEventListener("resize", () => setScaling(window.innerHeight, window.innerWidth));
 
 	/**
-	 * Function for handling mouseDown input, 
-	 * replaces typical eventListener used before
-	 * @param {MouseEvent} e
-	 */
-	function handleMouseDown(e) {
-		setMouseDown(true);
-		// Native JS event to access things react doesn't support like offsetX and offsetY
-		const nativeEvent = e.nativeEvent;
-
-		const canvas = canvasRef.current;
-		let ctx = canvas.getContext('2d');
-		ctx.fillStyle = "rgb(240, 3, 3)";
-		let posX = nativeEvent.offsetX;
-		let posY = nativeEvent.offsetY;
-		// Grab the "rectangle" of the internal canvas so that the positions can be transposed
-		// const boundRect = canvas.getBoundingClientRect();
-		// Transpose x and y position
-		posX = transposePosition(posX, 0);
-		posY = transposePosition(posY, 0);
-		// console.log(`Left: ${boundRect.left}, Top: ${boundRect.top}, Bottom: ${boundRect.bottom}, Right: ${boundRect.right}, pixX: ${posX}, pixY: ${posY}`);
-		ctx.fillRect(posX, posY, 1, 1);
+	 * Wrapper function for updating current action. This will be passed down to the sidebar
+	 * Reasoning: passing down to sidebar will allow this function to be passed to buttons like erase button or paintbrush button.
+	 * Then, these buttons can call this function and update the top-level currentAction state variable accordingly.
+	 * @param {String} action, action to update to  
+	*/
+	function updateAction (action) {
+		setCanvasAction(action);
 	}
 
 	/** 
-	 * Function to handle mouse up 
-	 * (will simply set state, but wrapped in a function in case it is changed)
+	 * Wrapper function to set mouseDown to false. Wrapped in case it needs to be changed in the future
+	 * Currently, onMouseUp and onMouseLeave call this function
 	*/ 
 	function falseMouseDown() {
 		setMouseDown(false);
 	}
 
 	/**
- 	* Note: Should only be called upon by canvas objects
-	* @param {MouseEvent} e
-	**/
-	function fillPixel(e) {
-		// Native JS event to access things react doesn't support like offsetX and offsetY
+	 * This function will execute the given canvas action based upon the canvasAction state variable
+	 * Example: when canvasAction = "paint", it will call the fillPixel function on the current canvas.
+	 * @param {MouseEvent} e, the mouse event to be passed in, will provide the x and y offset in relation to the canvas
+	 */
+	function executeAction (e) {
+		const canvas = canvasRef.current;
 		const nativeEvent = e.nativeEvent;
-		if(mouseDown) {
-			let posX = nativeEvent.offsetX;
-			let posY = nativeEvent.offsetY;
-			const canvas = canvasRef.current;
-			const ctx = canvas.getContext('2d');
-			ctx.fillStyle = "rgb(253, 4, 4)";
-
-			// Transpose x and y position
-			posX = transposePosition(posX, 0);
-			posY = transposePosition(posY, 0);
-			ctx.fillRect(posX, posY, 1, 1);
+		const posX = nativeEvent.offsetX;
+		const posY = nativeEvent.offsetY;
+	
+		switch (canvasAction) {
+			case "paint":
+				fillPixel(canvas, posX, posY, pScale);
+				break;
+			default:
+				break;
 		}
 	}
+
+	/**
+	 * Function for handling mouseDown input, 
+	 * replaces typical eventListener used before
+	 * @param {MouseEvent} e
+	 */
+	function handleMouseDown(e) {
+		setMouseDown(true);
+		executeAction(e);
+	}
+
+	/**
+	 * Function for handling mouse movement
+	 * @param {MouseEvent} e
+	 */
+	function handleMouseMove(e) {
+		if(mouseDown) {
+			executeAction(e);
+		}
+	}
+
 	
+
 	return(
 		<>
 			<canvas
@@ -105,7 +110,7 @@ export function Canvas() {
 				onMouseDown={handleMouseDown}
 				onMouseUp={falseMouseDown}
 				onMouseLeave={falseMouseDown}
-				onMouseMove={fillPixel}
+				onMouseMove={handleMouseMove}
 				height={16}
 			width={16}>
 			</canvas>
