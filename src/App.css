@@ -1,4 +1,5 @@
 canvas {
+	/* display: block; */
 	border: .5em black solid;
 	image-rendering: pixelated;
 	background-color: white;
@@ -7,7 +8,7 @@ canvas {
 
 a.buttonLink {
 	text-decoration: none;
-	color: light-dark(black, white);
+	color: light-dark(ButtonText, ButtonText);
 	margin: 0px 30px;
 	/* Padding works for separation between content and things like borders */
 	padding: .6em 1.2em;
@@ -17,4 +18,13 @@ a.buttonLink {
 }
 a.buttonLink:hover {
 	border-color: #ffffff;
+}
+
+div.sidebar {
+	display: inline-block;
+	margin: 0em 2em;
+}
+div.tools > button {
+	display: block;
+	margin: 10px 0px;
 }

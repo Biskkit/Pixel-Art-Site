@@ -26,3 +26,18 @@ export function fillPixel(canvas, posX, posY, pScale) {
 	posY = transposePosition(posY, pScale);
 	ctx.fillRect(posX, posY, 1, 1);
 }
+
+/**
+ * @brief Same as fillPixel except it clears the pixel instead
+ * @param {HTMLCanvasElement} canvas, canvas to act on
+ * @param posX, x position on canvas
+ * @param posY, y position on canvas 
+ */
+export function erasePixel (canvas, posX, posY, pScale) {
+	// Native JS event to access things react doesn't support like offsetX and offsetY
+	const ctx = canvas.getContext('2d');
+	// Transpose x and y position
+	posX = transposePosition(posX, pScale);
+	posY = transposePosition(posY, pScale);
+	ctx.clearRect(posX, posY, 1, 1);
+}

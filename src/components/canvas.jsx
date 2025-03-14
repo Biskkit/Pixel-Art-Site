@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Sidebar } from "./sidebar";
-import { fillPixel } from "../helper-functions/canvasFunctions";
+import { erasePixel, fillPixel } from "../helper-functions/canvasFunctions";
 
 // Main component
 export function Canvas() {
@@ -49,7 +49,7 @@ export function Canvas() {
 	 * Then, these buttons can call this function and update the top-level currentAction state variable accordingly.
 	 * @param {String} action, action to update to  
 	*/
-	function updateAction (action) {
+	function updateCanvasAction (action) {
 		setCanvasAction(action);
 	}
 
@@ -75,6 +75,9 @@ export function Canvas() {
 		switch (canvasAction) {
 			case "paint":
 				fillPixel(canvas, posX, posY, pScale);
+				break;
+			case "erase":
+				erasePixel(canvas, posX, posY, pScale);
 				break;
 			default:
 				break;
@@ -114,7 +117,7 @@ export function Canvas() {
 				height={16}
 			width={16}>
 			</canvas>
-			<Sidebar canvas = {canvasRef.current}/>
+			<Sidebar canvas = {canvasRef.current} updateCanvasAction = { updateCanvasAction }/>
 		</>
 	);
 }

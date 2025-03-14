@@ -12,12 +12,30 @@
  * Top-level Sidebar component.
  * @param {HTMLCanvasElement1} canvas, top-level canvas object
  */
-export function Sidebar({ canvas }) {
+export function Sidebar({ canvas, updateCanvasAction }) {
 	return (
-		<>
-			<ClearBtn canvas = {canvas}/>
-			<DownloadLink canvas = {canvas}/>
-		</>
+		<div className="sidebar">
+			<div className="tools">
+				<BrushButton updateCanvasAction={updateCanvasAction}/>
+				<EraserButton updateCanvasAction={updateCanvasAction}/>
+			</div>
+			<div className="utility">
+				<ClearBtn canvas = {canvas}/>
+				<DownloadLink canvas = {canvas}/>
+			</div>
+		</div>
+	)
+}
+
+function BrushButton( { updateCanvasAction } ) {
+	return(
+		<button color="blue" onClick={() => updateCanvasAction("paint")}>Brush</button>
+	)
+}
+
+function EraserButton( { updateCanvasAction } ) {
+	return(
+		<button color = "pink" onClick={() => updateCanvasAction("erase")}>Eraser</button>
 	)
 }
 
@@ -57,3 +75,5 @@ function DownloadLink( { canvas } ) {
 		<a href={imageURL} download = "image" className="buttonLink">Download as PNG</a>
 	)
 }
+
+
