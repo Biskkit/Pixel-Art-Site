@@ -41,3 +41,14 @@ export function erasePixel (canvas, posX, posY, pScale) {
 	posY = transposePosition(posY, pScale);
 	ctx.clearRect(posX, posY, 1, 1);
 }
+
+/**
+ * 
+ * @param hexCode, hexcode string to pass into input
+ * @param {HTMLCanvasElement} canvas, 
+*/
+export function changeColor(hexCode, canvas) {
+	/** @type {HTMLCanvasElement} canvas */
+	const ctx = canvas.getContext('2d');
+	ctx.fillStyle = hexCode
+}

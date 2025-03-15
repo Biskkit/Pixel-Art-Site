@@ -61,6 +61,8 @@ export function Canvas() {
 		setMouseDown(false);
 	}
 
+	
+
 	/**
 	 * This function will execute the given canvas action based upon the canvasAction state variable
 	 * Example: when canvasAction = "paint", it will call the fillPixel function on the current canvas.
@@ -103,7 +105,6 @@ export function Canvas() {
 			executeAction(e);
 		}
 	}
-
 	
 
 	return(

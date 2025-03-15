@@ -1,3 +1,5 @@
+import { changeColor } from "../helper-functions/canvasFunctions";
+
 /**
  * This file represents all the components which will be shown on the side of the canvas. This includes the clear and download button/link, eraser tool, etc.
  * Each of these components relies on the top-level canvas, which is why they will all share a common parent component "Sidebar"
@@ -21,6 +23,7 @@ export function Sidebar({ canvas, updateCanvasAction, currentCanvasAction }) {
 			<div className="tools">
 				<BrushButton updateCanvasAction={updateCanvasAction} currentCanvasAction={currentCanvasAction}/>
 				<EraserButton updateCanvasAction={updateCanvasAction} currentCanvasAction = {currentCanvasAction}/>
+				<ColorInput canvas = {canvas}/>
 			</div>
 			<div className="utility">
 				<ClearBtn canvas = {canvas}/>
@@ -55,6 +58,28 @@ function EraserButton( { updateCanvasAction, currentCanvasAction } ) {
 	return(
 		<img src={src} onClick={() => updateCanvasAction("erase")} alt="Erase Tool" title="Eraser"></img>
 
+	)
+}
+
+/**
+ * The input for the color hex code
+ */
+function ColorInput({ canvas }) {
+	/**
+	 * 
+	 * @param {KeyboardEvent} e 
+	 */
+	function handleKeyDown(e) {
+		if(e.key == "Enter") {
+			changeColor(e.target.value, canvas);
+		}
+	}
+
+	return (
+		<>
+			<label for = "color">Input color hex code:</label>
+			<input type = "text" onKeyDown={handleKeyDown} id = "color" name = "color"></input>
+		</>
 	)
 }
 
