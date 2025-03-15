@@ -65,21 +65,16 @@ function EraserButton( { updateCanvasAction, currentCanvasAction } ) {
  * The input for the color hex code
  */
 function ColorInput({ canvas }) {
-	/**
-	 * 
-	 * @param {KeyboardEvent} e 
-	 */
-	function handleKeyDown(e) {
-		if(e.key == "Enter") {
-			changeColor(e.target.value, canvas);
-		}
+	
+	function handleMouseUpAndLeave(e) {
+		const hexCode = e.target.value;
+		changeColor(hexCode, canvas);
 	}
 
 	return (
-		<>
-			<label for = "color">Input color hex code:</label>
-			<input type = "text" onKeyDown={handleKeyDown} id = "color" name = "color"></input>
-		</>
+		<input type = "color" id = "color" name = "color" onMouseUp={handleMouseUpAndLeave} 
+		onMouseLeave={handleMouseUpAndLeave} onInput={handleMouseUpAndLeave}>
+		</input>
 	)
 }
 

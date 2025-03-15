@@ -6,13 +6,15 @@ canvas {
 }
 
 
-
+div.canvas {
+	display: flex;
+	align-items: center;
+}
 div.sidebar {
 	display: inline-flex;
 	image-rendering: pixelated; /* This will be needed in the future when I add pixel art for the sidebar icons (brush for brush tool, eraser for eraser, etc.) */
 	flex-direction: column;
 	justify-content: space-evenly;
-	position: absolute;
 	height: 80vh;
 	margin: 0em 2em;
 }
@@ -54,4 +56,11 @@ a.buttonLink {
 }
 a.buttonLink:hover {
 	border-color: #ffffff;
+}
+
+/* CSS Styling related to canvas color picker */
+
+.colorPickerMarker {
+	position: absolute;
+	pointer-events: none;
 }
