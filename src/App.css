@@ -59,8 +59,14 @@ a.buttonLink:hover {
 }
 
 /* CSS Styling related to canvas color picker */
-
-.colorPickerMarker {
+.markerSpan {
 	position: absolute;
 	pointer-events: none;
+}
+.markerElement {
+	position: relative;
+	image-rendering: pixelated;
+	width: 5vh;
+	top: -2.5vh;
+	left: -2.5vh;
 }

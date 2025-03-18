@@ -20,38 +20,56 @@ export function ColorPicker() {
 	// 	// ctx.createLinearGradient()
 	// }, [canvasRef]);
 
+
 	/**
 	 * This will handle when the mouse moves in the canvas. Grabbing the offset x and y and updating the span respectively
 	 * @param {MouseEvent} e 
 	 */
 	function handleMouseMove(e) {
 		if(mouseDown) {
-			// Grab x and y position relative to Canvas
 			/**@type {HTMLCanvasElement} */
 			const canvas = e.target;
 			//grab rectangle
 			const bbox = canvas.getBoundingClientRect();
 			let x = e.clientX - bbox.left;
 			let y = e.clientY - bbox.top;
+			
 			// Move span to respective position, this will update the x and y state variables which will implicitly update the given top and left position of the span
 			setPosArr([x, y]);
 		}
 	}
 
+	/**
+	* Function to handle mouse down, very similar to handleMouseMove, just skips the if check
+	*/
+	function handleMouseDown(e) {
+		// set mousedown to true
+		setMouseDown(true);
+		
+		/**@type {HTMLCanvasElement} */
+		const canvas = e.target;
+		//grab rectangle
+		const bbox = canvas.getBoundingClientRect();
+		let x = e.clientX - bbox.left;
+		let y = e.clientY - bbox.top;
+		
+		// Move span to respective position, this will update the x and y state variables which will implicitly update the given top and left position of the span
+		setPosArr([x, y]);
+	}
 	
 	// Grab respective x and y pos from pos array
 	const posX = posArr[0];
 	const posY = posArr[1];
 	return(
-		<div style={{display: "inlin-block", position: "relative"}}>
-			<canvas ref = {canvasRef} width = {256} height = {256} style={{border: "none", margin: "0", zIndex: 1}} 
-				onMouseDown= {() => setMouseDown(true)} 
+		<div style={{display: "inline-block", position: "relative"}}>
+			<canvas ref = {canvasRef} width = {400} height = {400} style={{border: "none", margin: "0", zIndex: 1}} 
+				onMouseDown = {handleMouseDown} 
 				onMouseUp= {() => setMouseDown(false)}
 				onMouseLeave={() => setMouseDown(false)}
 				onMouseMove={handleMouseMove}>
 			</canvas>
-			<span className="colorPickerMarker" style={{top: `${posY}px`, left: `${posX}px`}}>
-				<img src="vite.svg"></img>
+			<span className="markerSpan" style={{top: `${posY}px`, left: `${posX}px`}}>
+				<img className= "markerElement" src="ui/color-picker-eye.png"></img>
 			</span>
 		</div>
 	)
