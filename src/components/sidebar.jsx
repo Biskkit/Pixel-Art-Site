@@ -70,15 +70,13 @@ function ColorInput({ canvas }) {
 	 * @param {KeyboardEvent} e 
 	 */
 	function handleKeyDown(e) {
-		if(e.key == "Enter") {
-			changeColor(e.target.value, canvas);
-		}
+        changeColor(e.target.value, canvas);
 	}
 
 	return (
 		<>
-			<label for = "color">Input color hex code:</label>
-			<input type = "text" onKeyDown={handleKeyDown} id = "color" name = "color"></input>
+			<label for = "color">Change color:</label>
+			<input type = "color" onInput={handleKeyDown} id = "color" name = "color"></input>
 		</>
 	)
 }
