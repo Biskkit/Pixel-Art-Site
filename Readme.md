@@ -5,8 +5,8 @@ Current features:
 * 16x16 canvas support
 * Clear button
 * Ability to download as PNG
-* Ability to paint red pixels on canvas
+* Ability paint & erase pixels on canvas
+* Ability to choose color (Best supported on Chromium browsers, browsers like Firefox have janky implementation of the "color" HTML input element)
 
 List of future updates:
-* Add multi-color support through something like a RGB wheel
-* Add eraser tool to delete individual pixels
+* Custom RGB wheel which can be browser-agnostic unlike the HTML color input element
